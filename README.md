@@ -32,7 +32,7 @@ TA Meeting - We will meet with our TA at 4:10 PM on Tuesdays remotely\
 
 Use Case Diagram:\
 
-![Alt text](Screen Shot 2022-10-27 at 4.02.15 PM.png)
+![Alt text](https://github.com/ConnerParker42/CSCI-3308-Project-Group-4/blob/main/Screen%20Shot%202022-10-27%20at%204.02.15%20PM.png)
 
 
 Wireframes:\
