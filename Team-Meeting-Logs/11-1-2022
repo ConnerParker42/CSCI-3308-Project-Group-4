@@ -1,0 +1,22 @@
+MVP: User can register, login, and access empty home page
+
+Database:
+    -Start small, just users and messages
+
+Pages:
+Login
+Register
+Home (All your message "threads")
+    -Each row contains most recent message
+    -Click leads to message 
+    -Cards/Rows containing each conversation
+Messages
+    -Parameter to specify each person
+
+Dedicated User "Public" For all public messages
+
+Later: 
+    Groups
+    Contacts
+    Icons
+    Settings
