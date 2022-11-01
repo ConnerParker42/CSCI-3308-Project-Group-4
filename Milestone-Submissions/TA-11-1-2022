@@ -1,0 +1,20 @@
+TA meetings
+11/1/2022
+
+Note: Every one must show up to TA meetings for evaluation
+
+All future meetings:
+1st: What we've done so far, what the plan is, who has done what
+2nd: Deliverables must be present at every meeting
+    -Release notes for each 
+
+-Main branch code must be working
+-Branch for each feature/user story
+-Each issue within a user story has its own branch
+-Commit message must make sense, never combine all features in one commit
+-2-3 mcommits per week per person
+-All code goes in the code folder
+-Do not overload one person alone
+-Release notes done for each meeting
+-Next recitations will cover testinging and deployment
+-Project creation can be an epic, each feature within will be a user story, issues nested within user stories. 
