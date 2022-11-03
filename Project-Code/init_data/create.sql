@@ -1,8 +1,8 @@
-Drop TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
-    username VARCHAR(60) UNIQUE NOT NULL,
+    username VARCHAR(60) PRIMARY KEY,
+    email    VARCHAR(60) NOT NULL,
     password VARCHAR(60) NOT NULL
 );
 
-INSERT INTO users (username, password) values ('testusername', 'testpassword');
+INSERT INTO users (username, email, password) VALUES ('test', 'test@us.er', '$2b$10$xrI.RP712FOIU6GhZbeE3OBHhOzgudLOoHFfAAVf48oCiesPBhDdC');
