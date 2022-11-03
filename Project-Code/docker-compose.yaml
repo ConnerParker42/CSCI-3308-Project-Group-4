@@ -6,7 +6,7 @@ services:
     expose:
       - '5432'
     volumes:
-      - lab-09-web-services:/var/lib/postgresql/data
+      - CSCI-3308-Project:/var/lib/postgresql/data
       - ./init_data:/docker-entrypoint-initdb.d
   web:
     image: node:lts
