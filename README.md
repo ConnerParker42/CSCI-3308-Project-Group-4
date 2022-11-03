@@ -36,3 +36,5 @@ TA Meeting **-** We will meet with our TA at 4:10 PM on Tuesdays remotely
 
 
 **Wireframes:**
+
+![Alt text](https://github.com/ConnerParker42/CSCI-3308-Project-Group-4/blob/main/3308Wireframe.png)
