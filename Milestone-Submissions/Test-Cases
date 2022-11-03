@@ -1,0 +1,49 @@
+1. Register
+ User activity:
+    The user enters their information into the register form, and clicks submit
+    If the username is taken or fields are blank, send error
+    Else redirect to login
+ Test data: 
+    Email, username, password
+ Test environment:
+    local/docker
+ Test results:
+    Status, and data retieved from database
+
+2. Login
+ User activity:
+    The user enters their information into the register form, and clicks submit
+    If the user exists and login information matches, redirect to home
+    Else redirect to login with error message
+ Test data: 
+    Username, password
+ Test environment:
+    local/docker
+ Test results:
+    Status
+
+
+
+3. Send message to existing conversation
+ User activity:
+    The user fills out a form with their message
+    The user clicks send, if sucessful reload page with additional message on stack
+    If the message sends sucessfully, reload the page with the new message on the stack
+    Else, reload page without new message, and an error message
+ Test data: 
+    Message
+ Test environment:
+    local/docker
+ Test results:
+    Status, message data from database
+
+4. Create new message thread
+ User activity:
+     The user types a username into a form
+     Given that the user exists, redirect to the send message page
+ Test data: 
+     Username of intended recipient
+ Test Environment:
+     local/docker
+ Test results:
+     Status, username of recipient
