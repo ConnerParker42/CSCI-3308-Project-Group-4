@@ -78,8 +78,8 @@ app.post('/login', (request, response) => {
     .then(async function(data){
         const match = await bcrypt.compare(request.body.password, data.password);
         if (!match){
-            throw "Incorrect username or password.";
-            response.redirect('/register');
+            response.render('pages/login.ejs',
+                { error: true, message: "Incorrect username or password." });
         }
         else {
             request.session.user = {
@@ -90,7 +90,8 @@ app.post('/login', (request, response) => {
         }
     })
     .catch(function (err) {
-        response.render('pages/login.ejs');
+        response.render('pages/login.ejs',
+            { error: true, message: "Incorrect username or password." });
     });
 });
 
