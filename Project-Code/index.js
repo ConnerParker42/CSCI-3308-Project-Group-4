@@ -86,7 +86,7 @@ app.post('/login', (request, response) => {
                 api_key: process.env.API_KEY,
             };
             request.session.save();
-            response.redirect('/discover');
+            response.redirect('/home');
         }
     })
     .catch(function (err) {
