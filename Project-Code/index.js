@@ -107,5 +107,10 @@ const auth = (req, res, next) => {
   
 app.use(auth);
 
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("pages/logout");
+});
+
 app.listen(3000);
 console.log("Server is listening on port 3000");
