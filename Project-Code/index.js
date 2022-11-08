@@ -109,7 +109,9 @@ app.use(auth);
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
-    res.render("pages/logout");
+    res.render("pages/login", {
+        message: 'Successfully logged out'
+    });
 });
 
 app.listen(3000);
