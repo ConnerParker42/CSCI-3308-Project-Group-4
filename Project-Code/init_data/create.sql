@@ -6,3 +6,10 @@ CREATE TABLE users (
 );
 
 INSERT INTO users (username, email, password) VALUES ('test', 'test@us.er', '$2b$10$xrI.RP712FOIU6GhZbeE3OBHhOzgudLOoHFfAAVf48oCiesPBhDdC');
+
+DROP TABLE IF EXISTS contacts;
+CREATE TABLE contacts (
+    sender_username VARCHAR(60) REFERENCES users (username) ON DELETE CASCADE,
+    recipient_username VARCHAR(60) REFERENCES users (username) ON DELETE CASCADE,
+    CONSTRAINT contact_pk PRIMARY KEY (sender_username, recipient_username)
+);
