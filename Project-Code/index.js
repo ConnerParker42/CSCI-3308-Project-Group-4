@@ -53,9 +53,10 @@ app.get('/register', (request, response) => {
 
 app.post('/register', async (request, response) => {
     const hash = await bcrypt.hash(request.body.password, 10);
-    const query = "insert into users (username, password) values ($1, $2);" //Change query to match database specs
+    const query = "insert into users (username, email, password) values ($1, $2, $3);" //Change query to match database specs
     db.any(query, [
         request.body.username,
+        request.body.email,
         hash
     ])
     .then(function(data){
@@ -105,6 +106,13 @@ const auth = (req, res, next) => {
   };
   
 app.use(auth);
+
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("pages/login", {
+        message: 'Successfully logged out'
+    });
+});
 
 app.listen(3000);
 console.log("Server is listening on port 3000");
