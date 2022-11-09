@@ -17,4 +17,26 @@ All future meetings:
 -Do not overload one person alone
 -Release notes done for each meeting
 -Next recitations will cover testinging and deployment
--Project creation can be an epic, each feature within will be a user story, issues nested within user stories. 
+-Project creation can be an epic, each feature within will be a user story, issues nested within user stories.
+
+TA meetings
+11/1/2022
+
+Update Github Project board with descriptions, user story and accpetance criteria
+Release notes before TA meetings
+
+Worker Tasker:
+    Conner - Home Page API Endpoints
+    Cam - Database added contacts and Endpoint queries
+    LeeLee - Home Page front end
+    Adrian - Login and Register Page 
+    Aiden - Home page front end 
+
+Plan for This Week:
+    Get Home Page Front end built and tested
+    Get Database tables with messages and contacts
+
+Plan for Next Week:
+    Finish up Message and start testing user interface
+    Get Contact message API Calls
+    Revise Project board issues with user stories and acceptance criteria
