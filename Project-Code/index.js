@@ -107,5 +107,30 @@ const auth = (req, res, next) => {
   
 app.use(auth);
 
+
+
+//Request should have the user name of the user who is logging in.
+//Response has usernames of people the user has sent a message to.
+app.get("/home", (request, response) => {
+    const query = `SELECT recipient_username FROM contacts where sender_username = $1;`;
+    db.any(query, [
+        request.session.user.username
+    ])
+    .then(function(data){
+        response.render('pages/home.ejs', data);
+    })
+    .catch(function (err) {
+        response.render('pages/home.ejs',
+            { error: true, message: "Error when getting home data." });
+    });
+});
+
+app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("pages/login", {
+        message: 'Successfully logged out'
+    });
+});
+
 app.listen(3000);
 console.log("Server is listening on port 3000");

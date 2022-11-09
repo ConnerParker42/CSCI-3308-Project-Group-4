@@ -1,0 +1,20 @@
+MVP: Home Page with contacts which can be clicked to redirect to page
+
+Database: 
+    Users, contacts, messages
+        connecting tables.
+
+Login and Register DONE
+
+Home page:
+    API Calls are done, front is underway
+
+Messages page:
+    API endpoint will include username of reciever
+    Get messages where sender is user and reciever is passed username
+
+Release Notes:
+    Login and Register are done and redirect to the approiate pages. Homepage API endpoints are done.
+
+Later:
+    Maybe add a public function but start with person to person messages

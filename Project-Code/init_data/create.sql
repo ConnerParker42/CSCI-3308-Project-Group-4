@@ -35,3 +35,10 @@ INSERT INTO recieves (username, message_id) values ('test2', 1);
 INSERT INTO messages (message_text) values ('Heres the reply');
 INSERT INTO sends (username, message_id) values ('test2', 2);
 INSERT INTO recieves (username, message_id) values ('test1', 2);
+
+DROP TABLE IF EXISTS contacts;
+CREATE TABLE contacts (
+    sender_username VARCHAR(60) REFERENCES users (username) ON DELETE CASCADE,
+    recipient_username VARCHAR(60) REFERENCES users (username) ON DELETE CASCADE,
+    CONSTRAINT contact_pk PRIMARY KEY (sender_username, recipient_username)
+);
