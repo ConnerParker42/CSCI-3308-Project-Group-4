@@ -11,30 +11,14 @@ INSERT INTO users (username, email, password) VALUES ('test2', 'test2@us.er', '$
 DROP TABLE IF EXISTS messages CASCADE;
 CREATE TABLE messages (
     message_id SERIAL PRIMARY KEY,
-    message_text TEXT NOT NULL
+    message TEXT NOT NULL,
+    sender_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
+    receiver_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
 );
 
-DROP TABLE IF EXISTS sends;
-CREATE TABLE sends (
-    username VARCHAR(60) NOT NULL REFERENCES users (username) ON DELETE CASCADE,
-    message_id INTEGER NOT NULL REFERENCES messages (message_id) ON DELETE CASCADE,
-    CONSTRAINT sends_pk PRIMARY KEY (username, message_id)
-);
+INSERT INTO messages (message_text, sender_username, receiver_username) values ('Hello there', 'test', 'test2');
+INSERT INTO messages (message_text, sender_username, receiver_username) values ('Heres the reply', 'test2', 'test1');
 
-DROP TABLE IF EXISTS recieves;
-CREATE TABLE recieves (
-    username VARCHAR(60) NOT NULL REFERENCES users (username) ON DELETE CASCADE,
-    message_id INTEGER NOT NULL REFERENCES messages (message_id) ON DELETE CASCADE,
-    CONSTRAINT recieves_pk PRIMARY KEY (username, message_id)
-);
-
-INSERT INTO messages (message_text) values ('Hello there');
-INSERT INTO sends (username, message_id) values ('test', 1);
-INSERT INTO recieves (username, message_id) values ('test2', 1);
-
-INSERT INTO messages (message_text) values ('Heres the reply');
-INSERT INTO sends (username, message_id) values ('test2', 2);
-INSERT INTO recieves (username, message_id) values ('test1', 2);
 
 DROP TABLE IF EXISTS contacts;
 CREATE TABLE contacts (

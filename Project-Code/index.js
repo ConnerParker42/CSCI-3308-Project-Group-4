@@ -132,5 +132,9 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.get("/message/:username", (request, response) =>{
+    
+});
+
 app.listen(3000);
 console.log("Server is listening on port 3000");
