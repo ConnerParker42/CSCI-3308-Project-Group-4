@@ -133,7 +133,18 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/message/:username", (request, response) =>{
-    
+    const otherUsername = parseInt(request.params.username);
+    const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
+    db.any(query, [
+        request.session.user.username,
+        otherUsername
+    ]).then(function(data){
+        response.render('/pages/message.ejs', data);
+
+    }).catch(function (err) {
+        response.render('pages/home.ejs',
+            { error: true, message: "Error when getting home data." });
+    });
 });
 
 app.listen(3000);
