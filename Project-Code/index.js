@@ -181,7 +181,8 @@ app.get("/home", async (request, response) => {
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/login", {
-        message: 'Successfully logged out'
+        message: 'Successfully logged out',
+        loggedin: false
     });
 });
 
