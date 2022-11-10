@@ -26,3 +26,6 @@ CREATE TABLE contacts (
     recipient_username VARCHAR(60) REFERENCES users (username) ON DELETE CASCADE,
     CONSTRAINT contact_pk PRIMARY KEY (sender_username, recipient_username)
 );
+
+INSERT INTO contacts (sender_username, recipient_username) VALUES ('test', 'test2'),
+                                                                  ('test2', 'test');
