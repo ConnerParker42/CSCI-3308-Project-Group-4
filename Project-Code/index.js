@@ -52,18 +52,31 @@ app.get('/register', (request, response) => {
 });
 
 app.post('/register', async (request, response) => {
-    const hash = await bcrypt.hash(request.body.password, 10);
-    const query = "insert into users (username, email, password) values ($1, $2, $3);" //Change query to match database specs
-    db.any(query, [
-        request.body.username,
-        request.body.email,
-        hash
+    console.log("yeet)");
+    await db.none('SELECT * FROM USERS WHERE username = $1', [
+        request.body.username
     ])
-    .then(function(data){
-        response.redirect('/login')
+    .then( async function(data) {
+        const hash = await bcrypt.hash(request.body.password, 10);
+        const query = 'insert into users (username, email, password) values ($1, $2, $3);' 
+         await db.any(query, [
+            request.body.username,
+            request.body.email,
+            hash
+        ])
+        .then(function(data){
+            response.redirect('/login')
+        })
+        .catch(function (err) {
+            response.render('pages/register',
+            { error: true, message: err});
+        });
     })
     .catch(function (err) {
-        response.redirect('/register')
+        console.log("username taken");
+        response.render('pages/register.ejs',
+            {error: true, message: 'Username is already in use'}
+        );
     });
 });
 
