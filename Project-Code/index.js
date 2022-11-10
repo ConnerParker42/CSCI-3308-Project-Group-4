@@ -150,7 +150,12 @@ const auth = (req, res, next) => {
   
 app.use(auth);
 
-
+// Login variable middleware
+app.use((req, res, next) => {
+    // Boolean whether session exists
+    res.locals.loggedin = !!req.session.user;
+    next();
+});
 
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
