@@ -118,7 +118,7 @@ app.get("/home", (request, response) => {
         request.session.user.username
     ])
     .then(function(data){
-        response.render('pages/home.ejs', data);
+        response.render('pages/home.ejs', { contacts: data });
     })
     .catch(function (err) {
         response.render('pages/home.ejs',
