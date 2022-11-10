@@ -13,7 +13,7 @@ CREATE TABLE messages (
     message_id SERIAL PRIMARY KEY,
     message TEXT NOT NULL,
     sender_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
-    receiver_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
+    receiver_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE
 );
 
 INSERT INTO messages (message_text, sender_username, receiver_username) values ('Hello there', 'test', 'test2');
