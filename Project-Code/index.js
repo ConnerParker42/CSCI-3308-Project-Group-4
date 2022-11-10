@@ -125,7 +125,8 @@ app.get("/home", async (request, response) => {
         response.render('pages/home.ejs', { contacts: contacts, chat: messages });
     } catch (err) {
         response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data." });
+            { error: true, message: "Error when getting home data.",
+               contacts: [], chat: [] });
     }
 });
 
@@ -147,7 +148,7 @@ app.get("/message/:username", (request, response) =>{
 
     }).catch(function (err) {
         response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data." });
+            { error: true, message: "Error when getting home data.", chat: [] });
     });
 });
 
