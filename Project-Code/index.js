@@ -147,5 +147,21 @@ app.get("/message/:username", (request, response) =>{
     });
 });
 
+app.post("/message/:username", (request, response) =>{
+    const otherUsername = parseInt(request.params.username);
+    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3)";;
+    db.any(query, [
+        request.body.message,
+        request.session.user.username,
+        otherUsername
+    ]).then(function(data){
+        response.redirect('/message/' + otherUsername);
+
+    }).catch(function (err) {
+        response.render('pages/home.ejs',
+            { error: true, message: "Error when sending message." });
+    });
+});
+
 app.listen(3000);
 console.log("Server is listening on port 3000");
