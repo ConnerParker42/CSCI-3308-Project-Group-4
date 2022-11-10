@@ -140,7 +140,7 @@ app.get("/message/:username", (request, response) =>{
         request.session.user.username,
         otherUsername
     ]).then(function(data){
-        response.render('/pages/message.ejs', data);
+        response.render('/pages/message.ejs', { chat: data });
 
     }).catch(function (err) {
         response.render('pages/home.ejs',
