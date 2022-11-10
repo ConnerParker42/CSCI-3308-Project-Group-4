@@ -52,18 +52,61 @@ app.get('/register', (request, response) => {
 });
 
 app.post('/register', async (request, response) => {
-    const hash = await bcrypt.hash(request.body.password, 10);
-    const query = "insert into users (username, email, password) values ($1, $2, $3);" //Change query to match database specs
-    db.any(query, [
-        request.body.username,
-        request.body.email,
-        hash
+
+    // Check if username is empty
+    if( request.body.username == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Username cannot be empty"});
+        return;
+    };
+
+    // Check if email is empty
+    if( request.body.email == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Email Address cannot be empty"});
+        return;
+    };
+
+    // Check if password is empty
+    if( request.body.password == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Password cannot be empty"});
+        return;
+    };
+
+    // Check if username is taken
+    await db.none('SELECT * FROM USERS WHERE username = $1', [
+        request.body.username
     ])
-    .then(function(data){
-        response.redirect('/login')
+    // Username not taken, attempt to add user to database
+    .then( async function(data) {
+        // Hash password
+        const hash = await bcrypt.hash(request.body.password, 10);
+        const query = 'insert into users (username, email, password) values ($1, $2, $3);' 
+        // Pass query to database in order to add use info to users table
+         await db.any(query, [
+            request.body.username,
+            request.body.email,
+            hash
+        ])
+        // Registration successful, redirect to /login
+        .then(function(data){
+            response.redirect('/login')
+        })
+        // Other error, render page w/ error message from database
+        .catch(function (err) {
+            response.render('pages/register',
+            { error: true, message: err});
+        });
     })
+    // Username is taken, rerender page w/ error message
     .catch(function (err) {
-        response.redirect('/register')
+        response.render('pages/register.ejs',
+            {error: true, message: 'Username is already in use'}
+        );
     });
 });
 
@@ -108,7 +151,12 @@ const auth = (req, res, next) => {
   
 app.use(auth);
 
-
+// Login variable middleware
+app.use((req, res, next) => {
+    // Boolean whether session exists
+    res.locals.loggedin = !!req.session.user;
+    next();
+});
 
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
