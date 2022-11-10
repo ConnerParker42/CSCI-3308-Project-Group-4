@@ -85,6 +85,7 @@ app.post('/login', (request, response) => {
         else {
             request.session.user = {
                 api_key: process.env.API_KEY,
+                username: request.body.username
             };
             request.session.save();
             response.redirect('/home');
