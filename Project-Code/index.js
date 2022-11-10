@@ -115,7 +115,7 @@ app.get('/login', (request, response) => {
 });
 
 app.post('/login', (request, response) => {
-    const query = "select * from users where username=$1;"
+    const query = "select * from users where username=$1;";
     db.one(query, [
         request.body.username
     ])
@@ -128,6 +128,7 @@ app.post('/login', (request, response) => {
         else {
             request.session.user = {
                 api_key: process.env.API_KEY,
+                username: request.body.username
             };
             request.session.save();
             response.redirect('/home');
@@ -159,24 +160,59 @@ app.use((req, res, next) => {
 
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
-app.get("/home", (request, response) => {
-    const query = `SELECT recipient_username FROM contacts where sender_username = $1;`;
-    db.any(query, [
-        request.session.user.username
-    ])
-    .then(function(data){
-        response.render('pages/home.ejs', data);
-    })
-    .catch(function (err) {
+app.get("/home", async (request, response) => {
+    try {
+        var contacts = await db.any("SELECT recipient_username FROM contacts where sender_username = $1;", [
+            request.session.user.username
+        ]);
+
+        var messages = await db.any("SELECT * FROM messages WHERE receiver_username = $1 FETCH FIRST 3 ROWS ONLY;", [
+            request.session.user.username
+        ]);
+
+        response.render('pages/home.ejs', { contacts: contacts, chat: messages });
+    } catch (err) {
         response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data." });
-    });
+            { error: true, message: "Error when getting home data.",
+               contacts: [], chat: [] });
+    }
 });
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/login", {
         message: 'Successfully logged out'
+    });
+});
+
+app.get("/message/:username", (request, response) =>{
+    const otherUsername = parseInt(request.params.username);
+    const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
+    db.any(query, [
+        request.session.user.username,
+        otherUsername
+    ]).then(function(data){
+        response.render('/pages/message.ejs', { chat: data });
+
+    }).catch(function (err) {
+        response.render('pages/home.ejs',
+            { error: true, message: "Error when getting home data.", chat: [] });
+    });
+});
+
+app.post("/message/:username", (request, response) =>{
+    const otherUsername = parseInt(request.params.username);
+    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3)";;
+    db.any(query, [
+        request.body.message,
+        request.session.user.username,
+        otherUsername
+    ]).then(function(data){
+        response.redirect('/message/' + otherUsername);
+
+    }).catch(function (err) {
+        response.render('pages/home.ejs',
+            { error: true, message: "Error when sending message." });
     });
 });
 
