@@ -133,6 +133,22 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.post("/addContact/:username", (request, response) => {
+    const otherUsername = parseInt(request.params.username);
+    const query = "INSERT INTO contacts (sender_username, recipient_username) VALUES ($1, $2);";
+    db.none(query, [
+        request.session.user.name,
+        otherUsername
+    ]).then(function(data){
+        response.redirect(`/home`,
+        {error: false, message: `Successfully added ${otherUsername} to contacts`});
+    })
+    .catch(function(data){
+        response.render('/pages/home',
+            {error: true, message: "Error when adding new contact"});
+    });
+});
+
 app.get("/message/:username", (request, response) =>{
     const otherUsername = parseInt(request.params.username);
     const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
@@ -150,7 +166,7 @@ app.get("/message/:username", (request, response) =>{
 
 app.post("/message/:username", (request, response) =>{
     const otherUsername = parseInt(request.params.username);
-    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3)";;
+    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3);";
     db.any(query, [
         request.body.message,
         request.session.user.username,
