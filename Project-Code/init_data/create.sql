@@ -11,7 +11,7 @@ INSERT INTO users (username, email, password) VALUES ('test2', 'test2@us.er', '$
 DROP TABLE IF EXISTS messages CASCADE;
 CREATE TABLE messages (
     message_id SERIAL PRIMARY KEY,
-    message TEXT NOT NULL,
+    message_text TEXT NOT NULL,
     sender_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
     receiver_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE
 );
