@@ -115,7 +115,7 @@ app.get('/login', (request, response) => {
 });
 
 app.post('/login', (request, response) => {
-    const query = "select * from users where username=$1;"
+    const query = "select * from users where username=$1;";
     db.one(query, [
         request.body.username
     ])
@@ -166,9 +166,9 @@ app.get("/home", async (request, response) => {
             request.session.user.username
         ]);
 
-        var messages = await db.any("SELECT * FROM messages WHERE receiver_username = $1 LIMIT FIRST 3 ROWS ONLY;", [
+        var messages = await db.any("SELECT * FROM messages WHERE receiver_username = $1 FETCH FIRST 3 ROWS ONLY;", [
             request.session.user.username
-        ])
+        ]);
 
         response.render('pages/home.ejs', { contacts: contacts, chat: messages });
     } catch (err) {
