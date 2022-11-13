@@ -20,8 +20,8 @@
         </main>
         <form action="/message/<%= locals.username %>" method="POST">
             <label for="messageTextBox" class="form-label">Send Message</label>
-            <input type="textbox" id="messageTextBox" class="form-control" placeholder="Send message to <%= locals.username %>">
-            <button type="submit" class="btn btn-outline-primary" name = "message">Send</button>
+            <input type="textbox" id="messageTextBox" name="message" class="form-control" placeholder="Send message to <%= locals.username %>">
+            <button type="submit" class="btn btn-outline-primary" id="sendButton">Send</button>
         </form>
     </body>
 </main>
