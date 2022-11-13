@@ -3,7 +3,7 @@
 
 <main class="message">
     <body class="bg-light">
-        <%= locals. username%>
+        <div style="margin:10px">Messages with <%= locals.username%></div>
         <main role="main" class="container">
             <table class="table">
                 <th>Sender</th>
@@ -19,9 +19,9 @@
             </table>
         </main>
         <form action="/message/<%= locals.username %>" method="POST">
-            <label for="messageTextBox" class="form-label">Send Message</label>
-            <input type="textbox" id="messageTextBox" name="message" class="form-control" placeholder="Send message to <%= locals.username %>">
-            <button type="submit" class="btn btn-outline-primary" id="sendButton">Send</button>
+            <label for="messageTextBox" class="form-label" style="margin:10px">Send Message</label>
+            <input type="textbox" id="messageTextBox" name="message" class="form-control" placeholder="Send message to <%= locals.username %>" style="margin:10px; width:99vw">
+            <button type="submit" class="btn btn-outline-primary" id="sendButton" style="float:right; margin: 10px">Send</button>
         </form>
     </body>
 </main>
