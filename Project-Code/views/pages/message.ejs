@@ -11,9 +11,9 @@
                 <th>Message</th>
                 <% chat.forEach(message => { %>
                     <tr>
-                        <td>>%= message.sender_username%></td>
-                        <td>>%= message.receiver_username%></td>
-                        <td>>%= message.message_text%></td>
+                        <td><%= message.sender_username%></td>
+                        <td><%= message.receiver_username%></td>
+                        <td><%= message.message_text%></td>
                     </tr>
                 <% }) %>
             </table>
