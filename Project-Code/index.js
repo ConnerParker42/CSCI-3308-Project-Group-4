@@ -202,7 +202,7 @@ app.get("/message/:username", (request, response) =>{
 
 app.post("/message/:username", (request, response) =>{
     const otherUsername = request.params.username;
-    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3);";
+    const query = "insert into messages (message_text, sender_username, receiver_username) values ($1, $2, $3);";
     db.any(query, [
         request.body.message,
         request.session.user.username,
@@ -212,7 +212,7 @@ app.post("/message/:username", (request, response) =>{
 
     }).catch(function (err) {
         response.render('pages/message.ejs',
-            { error: true, message: "Error when sending message." });
+            { error: true, message: "Error when sending message.", chat:[]});
     });
 });
 
