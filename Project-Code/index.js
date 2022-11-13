@@ -192,7 +192,7 @@ app.get("/message/:username", (request, response) =>{
         request.session.user.username,
         otherUsername
     ]).then(function(data){
-        response.render('/pages/message.ejs', { username: otherUsername ,chat: data });
+        response.render('pages/message.ejs', { username: otherUsername ,chat: data });
 
     }).catch(function (err) {
         response.render('pages/home.ejs',
@@ -202,7 +202,7 @@ app.get("/message/:username", (request, response) =>{
 
 app.post("/message/:username", (request, response) =>{
     const otherUsername = parseInt(request.params.username);
-    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3)";;
+    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3);";
     db.any(query, [
         request.body.message,
         request.session.user.username,
