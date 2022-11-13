@@ -187,18 +187,14 @@ app.get("/logout", (req, res) => {
 
 app.get("/message/:username", (request, response) =>{
     const otherUsername = request.params.username;
-    console.log(request.params);
-    console.log(request.session.user);
     const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
     db.any(query, [
         request.session.user.username,
         otherUsername
     ]).then(function(data){
-        console.log('one');
         response.render('pages/message.ejs', { username: otherUsername ,chat: data });
 
     }).catch(function (err) {
-        console.log('two');
         response.render('pages/message.ejs',
             { error: true, message: "Error when getting home data.", chat: [] });
     });
@@ -212,11 +208,9 @@ app.post("/message/:username", (request, response) =>{
         request.session.user.username,
         otherUsername
     ]).then(function(data){
-        console.log('three');
         response.redirect('/message/' + otherUsername);
 
     }).catch(function (err) {
-        console.log('four');
         response.render('pages/message.ejs',
             { error: true, message: "Error when sending message." });
     });
