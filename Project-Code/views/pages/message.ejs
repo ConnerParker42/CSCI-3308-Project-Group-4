@@ -21,7 +21,7 @@
         <form action="/message/<%= locals.username %>" method="POST">
             <label for="messageTextBox" class="form-label">Send Message</label>
             <input type="textbox" id="messageTextBox" class="form-control" placeholder="Send message to <%= locals.username %>">
-            <button type="submit" class="btn btn-outline-primary">Send</button>
+            <button type="submit" class="btn btn-outline-primary" name = "message">Send</button>
         </form>
     </body>
 </main>
