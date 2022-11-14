@@ -3,6 +3,7 @@
 
 <main class="message">
     <body class="bg-light">
+        <div class="col"><%- include ('../partials/message') %></div>
         <div style="margin:10px">Messages with <%= locals.username%></div>
         <main role="main" class="container">
                 <% chat.forEach(message => { %>
@@ -10,27 +11,16 @@
                     <div class="container" style="width:70vw; height: 50px; background-color: #ffffff; margin: 10px; border-radius: 5px;">
                         <%= message.message_text%>
                         <span style="float: right">From: <%= message.sender_username%></span>
+                        <span style="display:flex; justify-content: end;"><%= message.sent_timestamp%></span>
                     </div>
                     <% } else { %>
                     <div class="container" style="width:70vw; height: 50px; background-color: #26a69a; margin: 10px; border-radius: 5px; color:#ffffff;">
                         <%= message.message_text%>
                         <span style="float: right"></span>
+                        <span style="display:flex; justify-content: end;"><%= message.sent_timestamp%></span>
                     </div> 
                     <% } %>
                 <% }) %>
-            <!-- <table class="table">
-                <th>Sender</th>
-                <th>Receiver</th>
-                <th>Message</th>
-                <% chat.forEach(message => { %>
-                    <td><%= message.message_text%></td>
-                    <tr>
-                        <td><%= message.sender_username%></td>
-                        <td><%= message.receiver_username%></td>
-                        <td><%= message.message_text%></td>
-                    </tr>
-                <% }) %>
-            </table> -->
         </main>
         <form action="/message/<%= locals.username %>" method="POST">
             <label for="messageTextBox" class="form-label" style="margin:10px">Send Message</label>
