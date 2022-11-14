@@ -196,13 +196,13 @@ app.get("/message/:username", (request, response) =>{
 
     }).catch(function (err) {
         response.render('pages/message.ejs',
-            { error: true, message: "Error when getting home data.", chat: [] });
+            { error: true, message: "Error when getting message data.", chat: [] });
     });
 });
 
 app.post("/message/:username", (request, response) =>{
     const otherUsername = request.params.username;
-    const query = "insert into messages (message_text, sender_username, receiver_username, sent_timestamp) values ($1, $2, $3, current_timestamp);";
+    const query = "insert into messages (message_text, sender_username, receiver_username, sent_timestamp) values ($1, $2, $3, current_timestamp) ;";
     db.any(query, [
         request.body.message,
         request.session.user.username,
@@ -211,8 +211,17 @@ app.post("/message/:username", (request, response) =>{
         response.redirect('/message/' + otherUsername);
 
     }).catch(function (err) {
-        response.render('pages/message.ejs',
+        const newQuery = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
+        db.any(newQuery, [
+            request.session.user.username,
+            otherUsername
+        ]).then(function (data){
+            response.render('pages/message.ejs', { username: otherUsername ,chat: data });
+        })
+        .catch(function (err) {
+            response.render('pages/message.ejs',
             { error: true, message: "Error when sending message.", chat:[]});
+        });
     });
 });
 

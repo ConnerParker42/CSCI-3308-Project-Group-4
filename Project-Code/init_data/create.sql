@@ -11,7 +11,7 @@ CREATE TABLE messages (
     message_text TEXT NOT NULL,
     sender_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
     receiver_username TEXT NOT NULL REFERENCES users (username) ON DELETE CASCADE,
-    sent_timestamp TIME
+    sent_timestamp TIMESTAMP
 );
 
 DROP TABLE IF EXISTS contacts;
