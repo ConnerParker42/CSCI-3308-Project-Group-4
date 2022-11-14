@@ -202,7 +202,7 @@ app.get("/message/:username", (request, response) =>{
 
 app.post("/message/:username", (request, response) =>{
     const otherUsername = request.params.username;
-    const query = "insert into messages (message_text, sender_username, receiver_username) values ($1, $2, $3);";
+    const query = "insert into messages (message_text, sender_username, receiver_username, sent_timestamp) values ($1, $2, $3, current_timestamp);";
     db.any(query, [
         request.body.message,
         request.session.user.username,
