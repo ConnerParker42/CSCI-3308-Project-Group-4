@@ -52,18 +52,61 @@ app.get('/register', (request, response) => {
 });
 
 app.post('/register', async (request, response) => {
-    const hash = await bcrypt.hash(request.body.password, 10);
-    const query = "insert into users (username, email, password) values ($1, $2, $3);" //Change query to match database specs
-    db.any(query, [
-        request.body.username,
-        request.body.email,
-        hash
+
+    // Check if username is empty
+    if( request.body.username == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Username cannot be empty"});
+        return;
+    };
+
+    // Check if email is empty
+    if( request.body.email == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Email Address cannot be empty"});
+        return;
+    };
+
+    // Check if password is empty
+    if( request.body.password == "") {
+        // If so, render register w/ error message
+        response.render('pages/register.ejs',
+            { error: true, message: "Password cannot be empty"});
+        return;
+    };
+
+    // Check if username is taken
+    await db.none('SELECT * FROM USERS WHERE username = $1', [
+        request.body.username
     ])
-    .then(function(data){
-        response.redirect('/login')
+    // Username not taken, attempt to add user to database
+    .then( async function(data) {
+        // Hash password
+        const hash = await bcrypt.hash(request.body.password, 10);
+        const query = 'insert into users (username, email, password) values ($1, $2, $3);' 
+        // Pass query to database in order to add use info to users table
+         await db.any(query, [
+            request.body.username,
+            request.body.email,
+            hash
+        ])
+        // Registration successful, redirect to /login
+        .then(function(data){
+            response.redirect('/login')
+        })
+        // Other error, render page w/ error message from database
+        .catch(function (err) {
+            response.render('pages/register',
+            { error: true, message: err});
+        });
     })
+    // Username is taken, rerender page w/ error message
     .catch(function (err) {
-        response.redirect('/register')
+        response.render('pages/register.ejs',
+            {error: true, message: 'Username is already in use'}
+        );
     });
 });
 
@@ -72,7 +115,7 @@ app.get('/login', (request, response) => {
 });
 
 app.post('/login', (request, response) => {
-    const query = "select * from users where username=$1;"
+    const query = "select * from users where username=$1;";
     db.one(query, [
         request.body.username
     ])
@@ -108,28 +151,38 @@ const auth = (req, res, next) => {
   
 app.use(auth);
 
-
+// Login variable middleware
+app.use((req, res, next) => {
+    // Boolean whether session exists
+    res.locals.loggedin = !!req.session.user;
+    next();
+});
 
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
-app.get("/home", (request, response) => {
-    const query = `SELECT recipient_username FROM contacts where sender_username = $1;`;
-    db.any(query, [
-        request.session.user.username
-    ])
-    .then(function(data){
-        response.render('pages/home.ejs', { contacts: data });
-    })
-    .catch(function (err) {
+app.get("/home", async (request, response) => {
+    try {
+        var contacts = await db.any("SELECT recipient_username FROM contacts where sender_username = $1;", [
+            request.session.user.username
+        ]);
+
+        var messages = await db.any("SELECT * FROM messages WHERE receiver_username = $1 FETCH FIRST 3 ROWS ONLY;", [
+            request.session.user.username
+        ]);
+
+        response.render('pages/home.ejs', { contacts: contacts, chat: messages });
+    } catch (err) {
         response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data.", contacts: []});
-    });
+            { error: true, message: "Error when getting home data.",
+               contacts: [], chat: [] });
+    }
 });
 
 app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/login", {
-        message: 'Successfully logged out'
+        message: 'Successfully logged out',
+        loggedin: false
     });
 });
 
@@ -150,23 +203,23 @@ app.post("/addContact", (request, response) => {
 });
 
 app.get("/message/:username", (request, response) =>{
-    const otherUsername = parseInt(request.params.username);
+    const otherUsername = request.params.username;
     const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
     db.any(query, [
         request.session.user.username,
         otherUsername
     ]).then(function(data){
-        response.render('/pages/message.ejs', { chat: data });
+        response.render('pages/message.ejs', { username: otherUsername ,chat: data });
 
     }).catch(function (err) {
-        response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data." });
+        response.render('pages/message.ejs',
+            { error: true, message: "Error when getting message data.", chat: [] });
     });
 });
 
 app.post("/message/:username", (request, response) =>{
-    const otherUsername = parseInt(request.params.username);
-    const query = "insert into messages (message, sender_username, receiver_username) values ($1, $2, $3);";
+    const otherUsername = request.params.username;
+    const query = "insert into messages (message_text, sender_username, receiver_username, sent_timestamp) values ($1, $2, $3, current_timestamp) ;";
     db.any(query, [
         request.body.message,
         request.session.user.username,
@@ -175,8 +228,17 @@ app.post("/message/:username", (request, response) =>{
         response.redirect('/message/' + otherUsername);
 
     }).catch(function (err) {
-        response.render('pages/home.ejs',
-            { error: true, message: "Error when sending message." });
+        const newQuery = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
+        db.any(newQuery, [
+            request.session.user.username,
+            otherUsername
+        ]).then(function (data){
+            response.render('pages/message.ejs', { username: otherUsername ,chat: data });
+        })
+        .catch(function (err) {
+            response.render('pages/message.ejs',
+            { error: true, message: "Error when sending message.", chat:[]});
+        });
     });
 });
 

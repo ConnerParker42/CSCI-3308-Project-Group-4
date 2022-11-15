@@ -1,0 +1,33 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main class="message">
+    <body class="bg-light">
+        <div class="col"><%- include ('../partials/message') %></div>
+        <div style="margin:10px">Messages with <%= locals.username%></div>
+        <main role="main" class="container">
+                <% chat.forEach(message => { %>
+                    <% if (locals.username == message.sender_username) { %>
+                    <div class="container" style="width:70vw; height: 50px; background-color: #ffffff; margin: 10px; border-radius: 5px;">
+                        <%= message.message_text%>
+                        <span style="float: right">From: <%= message.sender_username%></span>
+                        <span style="display:flex; justify-content: end;"><%= message.sent_timestamp%></span>
+                    </div>
+                    <% } else { %>
+                    <div class="container" style="width:70vw; height: 50px; background-color: #26a69a; margin: 10px; border-radius: 5px; color:#ffffff;">
+                        <%= message.message_text%>
+                        <span style="float: right"></span>
+                        <span style="display:flex; justify-content: end;"><%= message.sent_timestamp%></span>
+                    </div> 
+                    <% } %>
+                <% }) %>
+        </main>
+        <form action="/message/<%= locals.username %>" method="POST">
+            <label for="messageTextBox" class="form-label" style="margin:10px">Send Message</label>
+            <input type="textbox" id="messageTextBox" name="message" class="form-control" placeholder="Send message to <%= locals.username %>" style="margin:10px; width:99vw">
+            <button type="submit" class="btn btn-outline-primary" id="sendButton" style="float:right; margin: 10px">Send</button>
+        </form>
+    </body>
+</main>
+
+<%- include ('../partials/footer') %>
