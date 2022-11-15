@@ -122,7 +122,7 @@ app.get("/home", (request, response) => {
     })
     .catch(function (err) {
         response.render('pages/home.ejs',
-            { error: true, message: "Error when getting home data." });
+            { error: true, message: "Error when getting home data.", contacts: []});
     });
 });
 
@@ -133,19 +133,19 @@ app.get("/logout", (req, res) => {
     });
 });
 
-app.post("/addContact/:username", (request, response) => {
-    const otherUsername = parseInt(request.params.username);
+app.post("/addContact", (request, response) => {
+    const otherUsername = request.body.newContactUsername;
+    console.log(request.session.user.username);
     const query = "INSERT INTO contacts (sender_username, recipient_username) VALUES ($1, $2);";
     db.none(query, [
-        request.session.user.name,
+        request.session.user.username,
         otherUsername
     ]).then(function(data){
-        response.redirect(`/home`,
-        {error: false, message: `Successfully added ${otherUsername} to contacts`});
+        response.redirect('/home');
     })
-    .catch(function(data){
-        response.render('/pages/home',
-            {error: true, message: "Error when adding new contact"});
+    .catch(function(err){ 
+        console.log(err);
+        response.redirect('/home');
     });
 });
 
