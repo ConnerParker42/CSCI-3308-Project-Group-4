@@ -158,6 +158,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Message middleware
+app.use((req, res, next) => {
+    const msg = req.session.message;
+    if (!msg) return next();
+    res.locals.error = msg.error;
+    res.locals.message = msg.message;
+    req.session.message = undefined;
+    next();
+});
+
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
 app.get("/home", async (request, response) => {
@@ -166,7 +176,7 @@ app.get("/home", async (request, response) => {
             request.session.user.username
         ]);
 
-        var messages = await db.any("SELECT * FROM messages WHERE receiver_username = $1 FETCH FIRST 3 ROWS ONLY;", [
+        var messages = await db.any("SELECT DISTINCT sender_username FROM messages WHERE receiver_username = $1 FETCH FIRST 3 ROWS ONLY;", [
             request.session.user.username
         ]);
 
@@ -198,6 +208,12 @@ app.post("/addContact", (request, response) => {
     })
     .catch(function(err){ 
         console.log(err);
+
+        let msg = "Error adding contact. Please try again later.";
+        if (err.code == 23503) msg = "User does not exist.";
+        else if (err.code == 23505) msg = "Contact already added.";
+
+        request.session.message = { error: true, message: msg};
         response.redirect('/home');
     });
 });
