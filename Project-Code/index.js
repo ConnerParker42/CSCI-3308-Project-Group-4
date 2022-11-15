@@ -158,6 +158,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Message middleware
+app.use((req, res, next) => {
+    const msg = req.session.message;
+    if (!msg) return next();
+    res.locals.error = msg.error;
+    res.locals.message = msg.message;
+    req.session.message = undefined;
+    next();
+});
+
 //Request should have the user name of the user who is logging in.
 //Response has usernames of people the user has sent a message to.
 app.get("/home", async (request, response) => {
