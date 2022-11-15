@@ -15,6 +15,7 @@
     },
     "scripts": {
         "prestart": "npm install",
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "mocha"
     }
 }
