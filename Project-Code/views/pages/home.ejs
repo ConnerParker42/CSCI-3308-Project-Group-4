@@ -7,6 +7,15 @@
 
     <main role="main" class="container">
       <div class="my-3 p-3 bg-white rounded box-shadow" style="box-shadow: 0 0 1px 5px grey;">
+        <form action="/addContact" method="POST">
+          <div class="mb-3">
+            <label for="username" class="form-label">Add New Contact</label>
+            <input type="text" class="form-control" name="newContactUsername" placeholder="Username">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      <div class="my-3 p-3 bg-white rounded box-shadow" style="box-shadow: 0 0 1px 5px grey;">
         <h6 class="border-bottom border-gray pb-2 mb-0">Recent Messages</h6>
         <% for (message of chat) { %>
           <div class="media text-muted pt-3">

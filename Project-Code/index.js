@@ -186,6 +186,22 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.post("/addContact", (request, response) => {
+    const otherUsername = request.body.newContactUsername;
+    console.log(request.session.user.username);
+    const query = "INSERT INTO contacts (sender_username, recipient_username) VALUES ($1, $2);";
+    db.none(query, [
+        request.session.user.username,
+        otherUsername
+    ]).then(function(data){
+        response.redirect('/home');
+    })
+    .catch(function(err){ 
+        console.log(err);
+        response.redirect('/home');
+    });
+});
+
 app.get("/message/:username", (request, response) =>{
     const otherUsername = request.params.username;
     const query = "select * from messages where (sender_username = $1 and receiver_username = $2) or (sender_username = $2 and receiver_username = $1);";
