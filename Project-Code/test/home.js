@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-// const home = require('../views/pages/home.js');
+const home = require('../views/pages/home.ejs');
 
 describe('home', function() {
   it('should return true', function() {
