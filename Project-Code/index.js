@@ -208,6 +208,12 @@ app.post("/addContact", (request, response) => {
     })
     .catch(function(err){ 
         console.log(err);
+
+        let msg = "Error adding contact. Please try again later.";
+        if (err.code == 23503) msg = "User does not exist.";
+        else if (err.code == 23505) msg = "Contact already added.";
+
+        request.session.message = { error: true, message: msg};
         response.redirect('/home');
     });
 });
