@@ -48,11 +48,20 @@ TA meetings
   
 Tasks from each team member:
   Conner - Message page functionality and message API endpoints (8 commits)
-  Aiden - Message page front end and scribe (5 commits)
+  Aiden - Message page front end and scribe (6 commits)
   Cam - Added to messages database, fixed various bugs, added the addContact feature (12 commits)
-  Adrian - Home page, login/logout, message backend (17 commits)
-  LeeLee - Mocha and chai implementation and writing initial tests (3 commits)
+  Adrian - Home page, login/logout, message backend (20 commits)
+  LeeLee - Mocha and chai implementation and writing initial tests (9 commits)
     
+To do in recitation this week:
+    Extra credit this week
+    Sign up for project presentation and report
+    
+To do:
+    Update README
+    Merge other branches, and then delete merged branches
+    Add comments to user stories
+
 Plan for this week:
     Finished up home page
     Started and finished messages page
