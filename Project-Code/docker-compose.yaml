@@ -7,11 +7,11 @@ services:
       - '5432'
     volumes:
       - CSCI-3308-Project:/var/lib/postgresql/data
-      - ./init_data:/docker-entrypoint-initdb.d
+      - ./src/init_data:/docker-entrypoint-initdb.d
   web:
     image: node:lts
     user: 'node'
-    working_dir: /home/node/app
+    working_dir: /home/node/app/src
     env_file: .env
     environment:
       - NODE_ENV=development
@@ -25,7 +25,7 @@ services:
   webDemo:
     image: node:lts
     user: 'node'
-    working_dir: /home/node/app
+    working_dir: /home/node/app/src
     env_file: .env
     environment:
       - NODE_ENV=development
