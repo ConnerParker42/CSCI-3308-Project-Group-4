@@ -198,7 +198,6 @@ app.get("/logout", (req, res) => {
 
 app.post("/addContact", (request, response) => {
     const otherUsername = request.body.newContactUsername;
-    console.log(request.session.user.username);
     const query = "INSERT INTO contacts (sender_username, recipient_username) VALUES ($1, $2);";
     db.none(query, [
         request.session.user.username,
