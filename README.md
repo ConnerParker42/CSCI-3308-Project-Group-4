@@ -27,4 +27,5 @@ Instructions on how to run the application locally:
   3. Open an internet browser and type in http://localhost:3000/
   
 Note: The application can also be accessed at localhost:4000 for demonstrating two users on the same browser.
+
 Note: Demo users can be accessed using the usernames "Alice", "Bob", "Carol", and "Dan", with password "password"
