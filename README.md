@@ -1,4 +1,4 @@
-Ping-Pong!
+## Ping-Pong!
 
 Ping-Pong is a simple messaging application where users can login/register and view the different people who they have messaged.
 They an also create new contacts to message different users on the same application.
