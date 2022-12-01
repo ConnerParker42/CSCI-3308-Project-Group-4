@@ -1,7 +1,7 @@
+var assert = require('assert');
 const chai = require('chai');
 const expect = chai.expect;
-
-const register = require('../views/pages/register.ejs');
+// const register = require('../views/pages/register.ejs');
 
 describe('register', function() {
   it('should return true', function() {
