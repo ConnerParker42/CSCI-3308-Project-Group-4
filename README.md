@@ -29,7 +29,5 @@ Docker, NodeJS, PostgreSQL, HTML, CSS, Bootstrap, JavaScript
   2. npm install mocha chai --save-dev
   3. npm install request --save-dev
   4. npm run test
-  5. 
-Note: The application can also be accessed at localhost:4000 for demonstrating two users on the same browser.
 
 Note: Demo users can be accessed using the usernames "Alice", "Bob", "Carol", and "Dan", with password "password"
