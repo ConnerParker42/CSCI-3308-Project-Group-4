@@ -15,7 +15,7 @@ Docker, NodeJS, PostgreSQL, HTML, CSS, Bootstrap, JavaScript
 
 
 
-## Prerequisites to run the application - Any software that needs to be installed to run the application:
+## Prerequisites to run the application:
 
   1. Docker, node and postgres will be installed within docker containers
 
