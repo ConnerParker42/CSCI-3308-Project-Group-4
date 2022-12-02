@@ -1,0 +1,15 @@
+MVP: Home page back and front end completed, Messages page completed which shows messages between two specific people and allows for new messages
+
+Home page, messages page DONE
+
+Home page:
+    Fully completed and reroutes to specific messages page
+
+Messages page:
+    Fully completed: shows messages between two specific people, can send messages which reloads the page to show new message.
+
+Release Notes:
+    Home page front end and back end fully completed. Messages page front end and back end fully completed.
+
+Later:
+    Looking to add contact feature to add and message certain people

@@ -20,7 +20,7 @@ All future meetings:
 -Project creation can be an epic, each feature within will be a user story, issues nested within user stories.
 
 TA meetings
-11/1/2022
+11/8/2022
 
 Update Github Project board with descriptions, user story and accpetance criteria
 Release notes before TA meetings
@@ -40,3 +40,35 @@ Plan for Next Week:
     Finish up Message and start testing user interface
     Get Contact message API Calls
     Revise Project board issues with user stories and acceptance criteria
+    
+    
+    
+TA meetings
+11/15/2022
+  
+Tasks from each team member:
+  Conner - Message page functionality and message API endpoints (8 commits)
+  Aiden - Message page front end and scribe (6 commits)
+  Cam - Added to messages database, fixed various bugs, added the addContact feature (12 commits)
+  Adrian - Home page, login/logout, message backend (20 commits)
+  LeeLee - Mocha and chai implementation and writing initial tests (9 commits)
+    
+To do in recitation this week:
+    Extra credit this week
+    Sign up for project presentation and report
+    
+To do:
+    Update README
+    Merge other branches, and then delete merged branches
+    Add comments to user stories
+
+Plan for this week:
+    Finished up home page
+    Started and finished messages page
+    Started to create API for add contacts
+
+Plan for next week:
+    Create tests and start testing the application
+    Possibly add contacts feature
+    Fix any bugs that may be present
+   
